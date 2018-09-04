@@ -15,4 +15,11 @@ function add_sales_record($db, $saleID, $productID, $quantity){
   $result = @mysqli_query($db, $sql);
   return $result;
 }
+
+function find_all_products($db){
+  $sql_table = "product";
+  $sql = "SELECT * FROM $sql_table";
+  $result = mysqli_query($db, $sql);
+  return $result;
+}
 ?>
