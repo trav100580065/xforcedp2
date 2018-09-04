@@ -12,6 +12,7 @@ if(!$db){
 else{
   echo"<h1>Sales Records</h1>";
 
+  //retrieve sales records from sales table
   $sales_set = find_all_sales($db);
 
   //display the retrieved records

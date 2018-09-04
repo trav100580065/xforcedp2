@@ -2,6 +2,7 @@
 require_once('database.php');
 require_once('query_functions.php');
 
+//connect to database
 $db = db_connect();
 
 if(!$db){
@@ -14,6 +15,7 @@ else{
     $productID = $_POST['productID'];
     $quantity = $_POST['quantity'];
 
+	//validate user input
     if(!is_numeric($saleID)){
       echo "Sale ID must be a number";
     } else if(!is_numeric($productID)){
@@ -22,6 +24,7 @@ else{
       echo "Quantity must be a number";
     }
     else {
+	//add a sales record to sales table
       $result = add_sales_record($db, $saleID, $productID, $quantity);
 
       if(!$result){

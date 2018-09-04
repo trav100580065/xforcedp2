@@ -1,5 +1,5 @@
 <?php
-//Store functions related to Database
+//Store connection functions related to Database
 require_once('settings.php');
 
 function db_connect(){
