@@ -30,6 +30,12 @@ function find_all_inventory($db){
   return $result;
 }
 
+function find_all_purchases($db){
+  $sql_table = "purchases";
+  $sql = "SELECT * FROM $sql_table";
+  $result = mysqli_query($db, $sql);
+  return $result;
+}
 
 //Function to add a new product to the database
 function add_New_Product($db, $productName, $category, $supplier, $price){
