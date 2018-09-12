@@ -23,7 +23,12 @@ function find_all_products($db){
   return $result;
 }
 
-
+function find_all_inventory($db){
+  $sql_table = "inventory";
+  $sql = "SELECT * FROM $sql_table";
+  $result = mysqli_query($db, $sql);
+  return $result;
+}
 
 
 //Function to add a new product to the database
