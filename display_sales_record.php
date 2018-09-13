@@ -19,6 +19,10 @@
             <ul class="nav nav-pills">
                 <li><a href="index.html">Back</a></li>
             </ul>
+			<br />
+            <form method="post" action="export_sales.php">
+              <input type="submit" name="export_sales" value="CSV Export" class="btn btn-success"/>
+            </form>
             <table class="table table-striped">
                 <thead>
                     <tr>
