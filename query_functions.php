@@ -16,6 +16,11 @@ function add_sales_record($db, $saleID, $productID, $quantity){
   return $result;
 }
 
+function update_sales_record($db, $saleID, $productID, $quantity){
+  $sql_table = "sales";
+  $sql = "UPDATE $sql_table SET  quantity = $quantity WHERE productID == $productID && saleID = $saleID";
+}
+
 function find_all_products($db){
   $sql_table = "product";
   $sql = "SELECT * FROM $sql_table";
@@ -49,7 +54,7 @@ function add_New_Product($db, $productName, $category, $supplier, $price){
     VALUES ('$productName', '$category', '$supplier', '$price')";
     $result = @mysqli_query($db, $sql);
   }
-  
+
   //There is already a product with this name
   else {
     $result = null;
@@ -82,7 +87,7 @@ function add_New_Purchase($db, $productName, $purchaseDate, $expiryDate, $quanti
 
   //Checks if the product does exist
   if ($productID != null)
-  { 
+  {
     //SQL Statement to insert a new row into the purchases table
     $sql = "INSERT INTO purchases (productID, purchase_date, expiry_date, quantity_remaining, available)
     VALUES ('$productID', '$purchaseDate', '$expiryDate', '$quantity', true)";
@@ -104,7 +109,7 @@ function add_New_Item_To_Inventory($db, $productName, $quantity)
   echo "<p>Product ID is: $productID</p>";
 
   $sql = "INSERT INTO `inventory`(`productID`, `total_quantity`) VALUES ('$productID', '$quantity')";
-  
+
   $result = @mysqli_query($db, $sql);
 
   echo "<p>Result is $result</p>";
