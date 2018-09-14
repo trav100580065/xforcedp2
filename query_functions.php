@@ -18,7 +18,7 @@ function add_sales_record($db, $saleID, $productID, $quantity){
 
 function update_sales_record($db, $saleID, $productID, $quantity){
   $sql_table = "sales";
-  $sql = "UPDATE $sql_table SET  quantity = $quantity WHERE productID == $productID && saleID = $saleID";
+  $sql = "UPDATE $sql_table SET  quantity = $quantity WHERE productID == $productID && orderID = $saleID";
   $result = @mysqli_query($db, $sql);
   return $result;
 }
