@@ -52,7 +52,7 @@ function add_New_Product($db, $productName, $category, $supplier, $price){
 
   //Checks if there is already a product with that name
   if ($result == "") {
-    $sql = "INSERT INTO product (product_name, category, supplier, price)
+    $sql = "INSERT INTO product (productName, category, supplier, price)
     VALUES ('$productName', '$category', '$supplier', '$price')";
     $result = @mysqli_query($db, $sql);
   }
