@@ -11,6 +11,17 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $("#userInput").on("keyup", function() {
+                var value = $(this).val().toLowerCase();
+                $("#productTable tr").filter(function() {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                });
+            });
+        });
+
+    </script>
 </head>
 
 <body>
@@ -19,10 +30,13 @@
             <ul class="nav nav-pills">
                 <li><a href="index.html">Back</a></li>
             </ul>
-			<br />
-                  <form method="post" action="export_products.php">
-                    <input type="submit" name="export_products" value="CSV Export" class="btn btn-success"/>
-                  </form>
+            <br />
+            <form method="post" action="export_products.php">
+                <input type="submit" name="export_products" value="CSV Export" class="btn btn-success" />
+            </form>
+            <br />
+            <input id="userInput" type="text" placeholder="Search by name.." />
+            <br />
             <table class="table table-striped">
                 <thead>
                     <tr>
@@ -33,8 +47,8 @@
                         <th>Price</th>
                     </tr>
                 </thead>
-                <tbody>
-<?php
+                <tbody id="productTable">
+                    <?php
 require_once('database.php');
 require_once('query_functions.php');
 
@@ -50,24 +64,24 @@ else{
   $products_set = find_all_products($db);
 
   //display the retrieved records
-			while($row = mysqli_fetch_assoc($products_set)){
-				echo "<tr>\n";
-				echo "<td>", $row["productID"], "</td>\n";
-				echo "<td>", $row["productName"], "</td>\n";
-				echo "<td>", $row["category"], "</td>\n";
-        echo "<td>", $row["supplier"], "</td>\n";
-        echo "<td>", $row["price"], "</td>\n";
-				echo "</tr>\n";
-			}
-			echo "</table>\n";
+            while($row = mysqli_fetch_assoc($products_set)){
+                echo "<tr>\n";
+                echo "<td>", $row["productID"], "</td>\n";
+                echo "<td>", $row["productName"], "</td>\n";
+                echo "<td>", $row["category"], "</td>\n";
+                echo "<td>", $row["supplier"], "</td>\n";
+                echo "<td>", $row["price"], "</td>\n";
+                echo "</tr>\n";
+            }
+            echo "</table>\n";
 
   mysqli_free_result($products_set);
 }
 ?>
-</tbody>
-</table>
-</div>
-</div>
+                </tbody>
+            </table>
+        </div>
+    </div>
 </body>
 
 </html>
