@@ -44,6 +44,7 @@ function find_all_purchases($db){
   return $result;
 }
 
+
 //Function to add a new product to the database
 function add_New_Product($db, $productName, $category, $supplier, $price){
 
@@ -71,7 +72,7 @@ function get_Product_ID($db, $productName)
 {
   //Saves $sql as a select statement which will receive the productID
   $sql = "SELECT * FROM product
-  WHERE product_name = '$productName' limit 1";
+  WHERE productName = '$productName' limit 1";
 
   //Runs the sql statement, and then saves the row as an array
   $result = mysqli_query($db, $sql);
@@ -101,23 +102,76 @@ function add_New_Purchase($db, $productName, $purchaseDate, $expiryDate, $quanti
 }
 
 
-//Add Item to Inventory
-//TODO Need to change this function so that it checks whether the item already exists in the Inventory.  Will rename to "update_Inventory"
-//This function runs off the assumption that a product already exists in the productID table
+//Function that searches for product ID which has the same product name that's being inputted.  Is used to check whether this item is already present in Inventory
+function get_Inventory_ID($db, $productID)
+{
+  //Saves $sql as a select statement which will receive the productID
+  $sql = "SELECT * FROM inventory
+  WHERE productID = '$productID' limit 1";
+
+  //Runs the sql statement, and then saves the row as an array
+  $result = mysqli_query($db, $sql);
+  $row = mysqli_fetch_array($result);
+
+  return $row[0];
+}
+
+
+//Function that uses the product ID to search the quantity of that product
+function get_Inventory_Quantity($db, $productID)
+{
+  //Saves $sql as a select statment which will 
+  $sql = "SELECT totalQuantity FROM inventory
+  WHERE productID = '$productID' limit 1";
+
+  $result = mysqli_query($db, $sql);
+  $row = mysqli_fetch_array($result);
+
+  return $row[0];
+}
+
+
+
+//Adds a new item to inventory assuming no two items can have the same name
 function add_New_Item_To_Inventory($db, $productName, $quantity)
 {
-  //Locates the product ID
+
+  //Locate the product ID
   $productID = get_Product_ID($db, $productName);
-  echo "<p>Product ID is: $productID</p>";
 
-  $sql = "INSERT INTO `inventory`(`productID`, `total_quantity`) VALUES ('$productID', '$quantity')";
+  //Locate the inventory ID
+  $inventoryID = get_Inventory_ID($db, $productID);
 
-  $result = @mysqli_query($db, $sql);
 
-  echo "<p>Result is $result</p>";
+  //Checks if there is an inventory item present with this ID
+  if ($inventoryID == "")
+  {
+    $sql = "INSERT INTO `inventory`(`productID`, `totalQuantity`) VALUES ('$productID', '$quantity')";
+  
+    $result = @mysqli_query($db, $sql);
 
-  //NEED TO UPDATE TO CHECK FOR ITEM ALREADY IN INVENTORY AND THEN ADD MORE STOCK TO ITEM
+    return $result;
+  }
+
+
+  //If there is already an inventory item present with this ID
+  else if ($inventoryID != "")
+  {
+
+    $currentValue = get_Inventory_Quantity($db, $productID);
+
+    //Calculates the updated Value
+    $updatedValue = $currentValue + $quantity;
+
+    $sql = "UPDATE Inventory
+    SET totalQuantity = '$updatedValue'
+    WHERE productID='$productID'";
+
+    $result = @mysqli_query($db, $sql);
+  }
 
   return $result;
+
 }
+
 ?>
