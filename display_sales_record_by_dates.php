@@ -20,7 +20,7 @@
                 <li><a href="index.html">Back</a></li>
             </ul>
         </div>
-        <h2>Select Date Range</h2>
+        <h3>Select Date Range</h3>
         <div class="row">
             <div class="col-md-4">
                 <form method="post" action="display_sales_record_by_dates.php">
@@ -34,11 +34,12 @@
                     </div>
                     <br/>
                     <div class="form-group">
-                        <input type="submit" class="btn btn-default" />
+                        <input type="submit" name="btnSubmit" class="btn btn-default" value="Submit" />
                     </div>
                 </form>
             </div>
         </div>
+        <h4>Sales Records</h4>
         <table class="table table-striped">
             <thead>
                 <tr>
@@ -51,54 +52,73 @@
             <tbody>
                 <?php
 
-require_once('database.php');
-require_once('query_functions.php');
+                require_once('database.php');
+                require_once('query_functions.php');
+                $db = db_connect();
 
-$db = db_connect();
+                if(!$db){
+                  die("Connection failed: " . mysqli_connect_error());
+                  echo "<p>Database connection failure</p>";
+                }
+                else{
 
-if(!$db){
-die("Connection failed: " . mysqli_connect_error());
-echo "<p>Database connection failure</p>";
-}
-else{
-$errMsg = "";
+                  if(!isset($_POST["btnSubmit"])){
+                    //if submit button not clicked, display all Records
+                    //retrieve sales records from sales table
+                    $sales_set = find_all_sales($db);
 
-if(!isset($_POST["startDate"])){
-  $errMsg .= "Must enter start date";
-}
-if(!isset($_POST["endDate"])){
-  $errMsg .= "Must enter end date";
-}
+                    //display the retrieved records
+                    while($row = mysqli_fetch_assoc($sales_set)){
+                      echo "<tr>\n";
+                      echo "<td>", $row["orderID"], "</td>\n";
+                      echo "<td>", $row["productID"], "</td>\n";
+                      echo "<td>", $row["recordDate"], "</td>\n";
+                      echo "<td>", $row["quantity"], "</td>\n";
+                      echo "</tr>\n";
+                    }
+                    echo "</table>\n";
 
-if($errMsg == "")
-{
-  $startDate = $_POST["startDate"];
-  $endDate = $_POST["endDate"];
+                    mysqli_free_result($sales_set);
+                    }
+                  else{
+                    $errMsg = "";
 
-  $sql_table = "sales";
-  $sql = "SELECT * from $sql_table
-  WHERE recordDate >= '$startDate' and recordDate <= '$endDate'
-  ORDER BY recordDate DESC";
+                    if(!isset($_POST["startDate"])){
+                      $errMsg .= "Must enter start date";
+                    }
+                    if(!isset($_POST["endDate"])){
+                      $errMsg .= "Must enter end date";
+                    }
 
-  $result = mysqli_query($db, $sql);
+                    if($errMsg == "")
+                    {
+                      $startDate = $_POST["startDate"];
+                      $endDate = $_POST["endDate"];
 
-  //display the retrieved records
-    while($row = mysqli_fetch_assoc($result)){
-        echo "<tr>\n";
-        echo "<td>", $row["orderID"], "</td>\n";
-        echo "<td>", $row["productID"], "</td>\n";
-        echo "<td>", $row["recordDate"], "</td>\n";
-        echo "<td>", $row["quantity"], "</td>\n";
-        echo "</tr>\n";
-    }
-    echo "</table>\n";
+                      $sql_table = "sales";
+                      $sql = "SELECT * from $sql_table
+                      WHERE recordDate >= '$startDate' and recordDate <= '$endDate'
+                      ORDER BY recordDate DESC";
 
-mysqli_free_result($result);
-}
-}
+                      $result = mysqli_query($db, $sql);
 
-db_disconnect($db);
-?>
+                      //display the retrieved records
+                        while($row = mysqli_fetch_assoc($result)){
+                            echo "<tr>\n";
+                            echo "<td>", $row["orderID"], "</td>\n";
+                            echo "<td>", $row["productID"], "</td>\n";
+                            echo "<td>", $row["recordDate"], "</td>\n";
+                            echo "<td>", $row["quantity"], "</td>\n";
+                            echo "</tr>\n";
+                        }
+                        echo "</table>\n";
+
+                    mysqli_free_result($result);
+                    }
+                  }
+                }
+                db_disconnect($db);
+                ?>
             </tbody>
         </table>
     </div>
