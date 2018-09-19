@@ -88,6 +88,10 @@ function add_New_Purchase($db, $productName, $purchaseDate, $expiryDate, $quanti
   //Gets the Product ID for the inputted name
   $productID = get_Product_ID($db, $productName);
 
+  echo "<p>THERE IS AN ISSUE HERE</p>";
+
+  echo "<p>ProductID IS $productID</p>";
+
   //Checks if the product does exist
   if ($productID != null)
   {
@@ -172,6 +176,52 @@ function add_New_Item_To_Inventory($db, $productName, $quantity)
 
   return $result;
 
+}
+
+//Sells a product
+function sell_Product($db, $productName, $quantity, $sellDate)
+{
+
+  $productID = get_Product_ID($db, $productName);
+
+  if ($productID == "")
+  {
+    echo "<p>There is no product with this ID</p>";
+    return null;
+  }
+
+  else if ($productID != null)
+  {
+
+    $inventoryID = get_Inventory_ID($db, $productID);
+
+    //Checks if the product is present in the Inventory Table
+    if ($inventoryID == "")
+    {
+      echo "<p>There is no inventory item for this product</p>";
+      return null;
+    }
+
+    //If the product is present, then search for the item
+    else
+    {
+
+      $sql = "INSERT INTO `sales`(`productID`, `date`, 'quantity') VALUES ('$productID', '$sellDate', '$quantity')";
+
+      $result = @mysqli_query($db, $sql);
+
+      if ($result == null)
+      {
+        echo "<p>Unable to save the sale record</p>";
+      }
+      else
+      {
+        echo "<p>";
+      }
+    }
+  }
+
+  return $result;
 }
 
 ?>
