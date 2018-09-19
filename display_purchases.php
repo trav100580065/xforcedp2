@@ -22,7 +22,7 @@
                 <input type="submit" name="filter_date">
             </form>
             <form action="display_purchases.php" method="post">
-                <label for="quantity">Date filter</label>
+                <label for="quantity">Quantity filter</label>
                 <input type="submit" name="filter_quantity">
             </form>
         </div>
