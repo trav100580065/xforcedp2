@@ -9,7 +9,7 @@ class addSaleTest extends \PHPUnit_Framework_TestCase
     //connect to database
     $db = db_connect();
 
-    $this->assertFalse(die("Connection failed: " . mysqli_connect_error()));
+    $this->assertFalse(!$db);
   }
 
   public function testAddMysqlQuery(){
