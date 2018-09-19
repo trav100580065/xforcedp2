@@ -15,6 +15,17 @@
 
 <body>
     <div class="container">
+        <div class="filterSpace">
+            <form action="display_purchases.php" method="post">
+                <label for="date">Date filter</label>
+                <input type="text" id="date" name="date">
+                <input type="submit" name="filter_date">
+            </form>
+            <form action="display_purchases.php" method="post">
+                <label for="quantity">Date filter</label>
+                <input type="submit" name="filter_quantity">
+            </form>
+        </div>
         <div class="panel-body">
             <ul class="nav nav-pills">
                 <li><a href="index.html">Back</a></li>
@@ -34,6 +45,7 @@
                     <?php
 require_once('database.php');
 require_once('query_functions.php');
+require_once ('filter_functions.php');
 
 $db = db_connect();
 
@@ -45,7 +57,13 @@ else{
   echo"<h1>Purchase Records</h1>";
 
   //retrieve records from the purchase table
-  $purchases_set = find_all_purchases($db);
+    if (isset( $_POST["filter_date"])) {
+        $purchases_set = filter_date($db,'purchases',  $_POST["date"]);
+    } else if (isset( $_POST["filter_quantity"])){
+        $purchases_set = order_quantity($db,'purchases');
+    } else {
+        $purchases_set = find_all_purchases($db);
+    }
 
   //display the retrieved records
             while($row = mysqli_fetch_assoc($purchases_set)){
