@@ -8,6 +8,14 @@ function find_all_sales($db){
   return $result;
 }
 
+function find_sales_with_subtotals($db){
+  $sql = "SELECT productID, productName, recordDate, ROUND(quantity*price, 2) AS subtotal
+  from sales NATURAL INNER JOIN product
+  order by recordDate";
+  $result = mysqli_query($db, $sql);
+  return $result;
+}
+
 function add_sales_record($db, $saleID, $productID, $quantity){
   $sql_table = "sales";
   $sql = "INSERT INTO $sql_table (orderID, productID, recordDate, quantity)

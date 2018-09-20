@@ -26,10 +26,10 @@
             <table class="table table-striped">
                 <thead>
                     <tr>
-                        <th>Order ID</th>
                         <th>Product ID</th>
-                        <th>Date</th>
-                        <th>Quantity</th>
+                        <th>Product Name</th>
+                        <th>Sale Date</th>
+                        <th>Subtotal</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -48,15 +48,15 @@ else{
   echo"<h1>Sales Records</h1>";
 
   //retrieve sales records from sales table
-  $sales_set = find_all_sales($db);
+  $sales_set = find_sales_with_subtotals($db);
 
   //display the retrieved records
             while($row = mysqli_fetch_assoc($sales_set)){
                 echo "<tr>\n";
-                echo "<td>", $row["orderID"], "</td>\n";
                 echo "<td>", $row["productID"], "</td>\n";
+                echo "<td>", $row["productName"], "</td>\n";
                 echo "<td>", $row["recordDate"], "</td>\n";
-				echo "<td>", $row["quantity"], "</td>\n";
+				echo "<td>", $row["subtotal"], "</td>\n";
                 echo "</tr>\n";
             }
             echo "</table>\n";
