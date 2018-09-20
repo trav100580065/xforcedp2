@@ -96,7 +96,7 @@ function add_New_Purchase($db, $productName, $purchaseDate, $expiryDate, $quanti
   if ($productID != null)
   {
     //SQL Statement to insert a new row into the purchases table
-    $sql = "INSERT INTO purchases (productID, purchase_date, expiry_date, quantity_remaining, available)
+    $sql = "INSERT INTO purchases (productID, purchaseDate, expiryDate, quantityRemaining, available)
     VALUES ('$productID', '$purchaseDate', '$expiryDate', '$quantity', true)";
     $result = @mysqli_query($db, $sql);
     return $result;
@@ -206,7 +206,7 @@ function sell_Product($db, $productName, $quantity, $sellDate)
     else
     {
 
-      $sql = "INSERT INTO `sales`(`productID`, `date`, 'quantity') VALUES ('$productID', '$sellDate', '$quantity')";
+      $sql = "INSERT INTO `sales`(`productID`, `recordDate`, 'quantity') VALUES ('$productID', '$sellDate', '$quantity')";
 
       $result = @mysqli_query($db, $sql);
 

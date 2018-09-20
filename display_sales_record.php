@@ -56,7 +56,7 @@ else{
                 echo "<td>", $row["orderID"], "</td>\n";
                 echo "<td>", $row["productID"], "</td>\n";
                 echo "<td>", $row["recordDate"], "</td>\n";
-        echo "<td>", $row["quantity"], "</td>\n";
+				echo "<td>", $row["quantity"], "</td>\n";
                 echo "</tr>\n";
             }
             echo "</table>\n";

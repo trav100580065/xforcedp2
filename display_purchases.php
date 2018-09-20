@@ -70,10 +70,10 @@ else{
                 echo "<tr>\n";
                 echo "<td>", $row["purchaseID"], "</td>\n";
                 echo "<td>", $row["productID"], "</td>\n";
-                echo "<td>", $row["purchase_date"], "</td>\n";
-        echo "<td>", $row["expiry_date"], "</td>\n";
-        echo "<td>", $row["quantity_remaining"], "</td>\n";
-        echo "<td>", $row["available"], "</td>\n";
+                echo "<td>", $row["purchaseDate"], "</td>\n";
+				echo "<td>", $row["expiryDate"], "</td>\n";
+				echo "<td>", $row["quantityRemaining"], "</td>\n";
+				echo "<td>", $row["available"], "</td>\n";
                 echo "</tr>\n";
             }
             echo "</table>\n";

@@ -46,7 +46,7 @@ echo"<h1>Inventory Items</h1>";
             while($row = mysqli_fetch_assoc($inventory_set)){
                 echo "<tr>\n";
                 echo "<td>", $row["productID"], "</td>\n";
-        echo "<td>", $row["total_quantity"], "</td>\n";
+				echo "<td>", $row["totalQuantity"], "</td>\n";
                 echo "</tr>\n";
             }
             echo "</table>\n";
