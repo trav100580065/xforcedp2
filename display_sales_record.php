@@ -11,6 +11,17 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<script>
+        $(document).ready(function() {
+            $("#userInput").on("keyup", function() {
+                var value = $(this).val().toLowerCase();
+                $("#salesTable tr").filter(function() {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                });
+            });
+        });
+
+    </script>
 </head>
 
 <body>
@@ -23,6 +34,9 @@
             <form method="post" action="export_sales.php">
               <input type="submit" name="export_sales" value="CSV Export" class="btn btn-success"/>
             </form>
+			<br />
+            <input id="userInput" type="text" placeholder="Filter by product name..." />
+            <br />
             <table class="table table-striped">
                 <thead>
                     <tr>
@@ -32,7 +46,7 @@
                         <th>Subtotal</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody id="salesTable">
                     <?php
 
 require_once('database.php');
