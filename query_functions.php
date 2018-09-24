@@ -1,6 +1,10 @@
 <?php
 //this file stores all common queries
 
+function get_row($result) {
+	return $result->fetch_assoc();
+}
+
 function find_all_sales($db){
   $sql_table = "sales";
   $sql = "SELECT * FROM $sql_table";
