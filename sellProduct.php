@@ -30,47 +30,10 @@ else {
 
 		//Checks if the productID could be found
 		if ($result == null)
-			echo "<p>Theres no item in the inventory with this name</p>";
+			echo "<p>Product couldn't be correctly sold</p>";
 
-
-		$result = add_New_Product($db, $productName, $category, $supplier, $price);
-
-		/*
-		//If product couldn't be added correctly result will be false
-		if ($result != true)
-			echo "<p>There is already a product with this name</p>";
-		*/
-
-		//otherwise, add this product to purchases as well and add this to inventory as its the first addition
-		
-		//Add this product to purchases
-		$result = add_New_Purchase($db, $productName, $purchaseDate, $expiryDate, $quantity);
-
-		//If the input could not be added to purchases
-		if (!$result)
-		{
-			echo "<p>Product could be added to inventory, but purchases could not be updated.</p";
-		}
-
-
-		//otherwise, add the new item to inventory and increase available stock
 		else
-		{
-
-			//If Product could be added, Inventory is updated
-			$result = add_New_Item_To_Inventory($db, $productName, $quantity);
-
-			//checks if Inventory could be updated also
-			if (!$result){
-				echo "<p>Product and Purhcases were successfully updated, but inventory could not be updated</p>";
-			}
-
-			//Returns confirmation of the product was added and inventory updated
-			else {
-				echo "<p>Successfully added a new product and Inventory and Purhcases were updated correctly</p>";
-			}
-		}
-
+			echo "<p>Correctly recorded the sale of $quantity $productName /s</p>";
 	}
 }
 
@@ -83,6 +46,6 @@ db_disconnect($db);
 		<meta name="author" content="Jackson O'Shea"/>
 	</head>
 	<body>
-		<a href="addProduct.html">Go Back</a>
+		<a href="sellProduct.html">Go Back</a>
 	</body>
 </html>

@@ -111,10 +111,6 @@ function add_New_Purchase($db, $productName, $purchaseDate, $expiryDate, $quanti
   //Gets the Product ID for the inputted name
   $productID = get_Product_ID($db, $productName);
 
-  echo "<p>THERE IS AN ISSUE HERE</p>";
-
-  echo "<p>ProductID IS $productID</p>";
-
   //Checks if the product does exist
   if ($productID != null)
   {
@@ -205,15 +201,16 @@ function add_New_Item_To_Inventory($db, $productName, $quantity)
 function sell_Product($db, $productName, $quantity, $sellDate)
 {
 
+  $result = true;
   $productID = get_Product_ID($db, $productName);
 
   if ($productID == "")
   {
-    echo "<p>There is no product with this ID</p>";
+    echo "<p>There is no product with this Name</p>";
     return null;
   }
 
-  else if ($productID != null)
+  else if ($productID != "")
   {
 
     $inventoryID = get_Inventory_ID($db, $productID);
@@ -229,17 +226,112 @@ function sell_Product($db, $productName, $quantity, $sellDate)
     else
     {
 
-      $sql = "INSERT INTO `sales`(`productID`, `recordDate`, 'quantity') VALUES ('$productID', '$sellDate', '$quantity')";
+      //Calculates the amount of Quantity remaining of an Item
+      $inventoryAmount = get_Inventory_Quantity($db, $productID);
 
-      $result = @mysqli_query($db, $sql);
-
-      if ($result == null)
+      //If there's enough quantiy left to be removed
+      if ($inventoryAmount >= $quantity)
       {
-        echo "<p>Unable to save the sale record</p>";
+        
+        //Sets Quantity Remaining as the total inventory amount
+        $quantityStillToRemove = $quantity;
+
+        //Repeats and removes from inventory
+        while ($quantityStillToRemove > 0)
+        {
+
+          //Select statemennt to receive purchaseID and quantityRemaining
+          $sql = "SELECT purchaseID, quantityRemaining
+          FROM purchases
+          WHERE productID = '$productID' AND available = 1
+          ORDER BY expiryDate limit 1";
+
+          //Runs the query
+          $result = @mysqli_query($db, $sql);
+
+          //Saves the result into a row
+          $row = mysqli_fetch_array($result);
+
+          //Saves the sql values as variables
+          $purchaseID = "$row[0]";
+          $purchaseQuantityRemaining = "$row[1]";
+
+
+          //If there is more quantity being purchased than what's remaining in a purchase
+          if ($quantityStillToRemove > $purchaseQuantityRemaining)
+          {
+
+            //Decrease quantityStillToRemove by the quantity of the first purchase
+            $quantityStillToRemove = $quantityStillToRemove - $purchaseQuantityRemaining;
+
+            //Update the correct fields
+            $sql = "UPDATE purchases
+            SET quantityRemaining = 0, available = 0
+            WHERE purchaseID='$purchaseID'";
+
+            //Runs the query
+            $result = @mysqli_query($db, $sql);
+
+          }
+
+          //If the amount needing to be removed is less than what's remaining
+          else
+          {
+
+            //Calculate how much quantity will be remaining in the purchase
+            $newQuantity = $purchaseQuantityRemaining - $quantityStillToRemove;
+
+            if ($newQuantity == 0)
+            {
+              //Update the correct fields
+              $sql = "UPDATE purchases
+              SET quantityRemaining = '$newQuantity', available = 0
+              WHERE purchaseID='$purchaseID'";
+            }
+            else
+            {
+              //Update the correct fields
+              $sql = "UPDATE purchases
+              SET quantityRemaining = '$newQuantity'
+              WHERE purchaseID='$purchaseID'";
+            }
+
+            //Runs the query
+            $result = @mysqli_query($db, $sql);
+
+
+            //Creates a new SQL query to add the sale to the sales table
+            $sql = "INSERT INTO `sales`(`productID`, `recordDate`, `quantity`) 
+            VALUES ('$productID', '$sellDate', '$quantity')";
+
+            //Runs the query
+            $result = @mysqli_query($db, $sql);
+
+
+            //Calculate the inventory amount remaining
+            $newInventoryAmount = $inventoryAmount - $quantity;
+
+
+            //Creates a new SQL query to add the removal of inventory items to the inventory table
+            $sql = "UPDATE inventory
+            SET totalQuantity = '$newInventoryAmount'
+            WHERE productID='$productID'";
+
+            //Runs the query
+            $result = @mysqli_query($db, $sql);
+
+            //Set the quantity remaining to 0
+            $quantityStillToRemove = 0;
+
+          }
+        }
       }
+
       else
       {
-        echo "<p>";
+        echo "<p>There is not enough inventory to make this sale</p>";
+
+        $result = null;
       }
     }
   }
