@@ -31,17 +31,17 @@ products = [
 
 
 # number of purchase batches
-numPurchasesBatches = 15
+numPurchasesBatches = 25
 
 # number of sales batches
-numSalesBatches = 15
+numSalesBatches = 25
 
 # total amount of items purchased and sold
-totalPurPerItem = 1500
-totalSalePerItem = 1000
+totalPurPerItem = 2500
+totalSalePerItem = 2000
 
 # How many batches per product there should be, and the variance
-batchesPerProduct = 5
+batchesPerProduct = 7
 batchesPerProductVariance = 2
 
 
@@ -69,6 +69,14 @@ def SetGeneratorValues():
     for i in range(products.__len__()):
         purBatchNums = [[random.randrange(0, numPurchasesBatches), 0] for i in range(random.randrange(batchesPerProduct - batchesPerProductVariance, batchesPerProduct + batchesPerProductVariance))]
 
+        while True:
+            batches = [batch[0] for batch in purBatchNums]
+            if len(batches) == len(set(batches)):
+                break
+            purBatchNums = [[random.randrange(0, numPurchasesBatches), 0] for i in range(
+                random.randrange(batchesPerProduct - batchesPerProductVariance,
+                                 batchesPerProduct + batchesPerProductVariance))]
+
         purRandSet = [random.randint(1, 10) for j in range(purBatchNums.__len__())]
         purRandSum = sum(purRandSet)
 
@@ -81,6 +89,14 @@ def SetGeneratorValues():
 
 
         saleBatchNums = [[random.randrange(0, numSalesBatches), 0] for i in range(random.randrange(batchesPerProduct - batchesPerProductVariance, batchesPerProduct + batchesPerProductVariance))]
+
+        while True:
+            batches = [batch[0] for batch in saleBatchNums]
+            if len(batches) == len(set(batches)):
+                break
+            saleBatchNums = [[random.randrange(0, numSalesBatches), 0] for i in range(
+                random.randrange(batchesPerProduct - batchesPerProductVariance,
+                                 batchesPerProduct + batchesPerProductVariance))]
 
         saleRandSet = [random.randint(1, 10) for j in range(saleBatchNums.__len__())]
         saleRandSum = sum(saleRandSet)
@@ -133,7 +149,7 @@ def GenerateSales(file):
     for p in products:
         for batch in salesBatches[p[1] - 1]:
             file.write("INSERT INTO sales\n")
-            file.write("(purchaseID, productID, recordDate, quantity)\n")
+            file.write("(orderID, productID, recordDate, quantity)\n")
             file.write("VALUES(" + str(batch[0]) +
                        "," + str(p[1]) +
                        ",'" + str(purBatchDates[batch[0]][0]) + "-" +  str(purBatchDates[batch[0]][1]) + "-" + str(purBatchDates[batch[0]][2])  +
