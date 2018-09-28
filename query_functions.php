@@ -20,11 +20,12 @@ function find_sales_with_subtotals($db){
   return $result;
 }
 
-function find_weekly_sales($db, $endDate){
+function find_weekly_sales($db, $endDate, $productName){
   $sql = "SELECT productID, productName, recordDate, ROUND(quantity*price, 2) AS subtotal
   FROM sales NATURAL INNER JOIN product
   WHERE datediff('$endDate', recordDate) <= 6 AND
-  datediff('$endDate', recordDate) >= 0
+  datediff('$endDate', recordDate) >= 0 AND
+  productName = '$productName'
   ORDER BY recordDate DESC";
   $result = mysqli_query($db, $sql);
   return $result;

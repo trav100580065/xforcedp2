@@ -31,7 +31,7 @@
       <h3>Generate Weekly Sales Report</h3>
       <div class="row">
           <div class="col-md-2">
-            <form method="post" action="" onsubmit="return validate();">
+            <form method="post" action="wrProcess.php" onsubmit="return validate();">
               <div class="form-group">
                   <label for="endDate">Week ending: </label>
                   <input type="date" name="endDate" class="form-control" />
