@@ -53,6 +53,13 @@ function find_all_products($db){
   return $result;
 }
 
+function find_product_names($db){
+	$sql_table = "product";
+  $sql = "SELECT productName FROM $sql_table";
+  $result = mysqli_query($db, $sql);
+  return $result;
+}
+
 function find_all_inventory($db){
   $sql_table = "inventory";
   $sql = "SELECT * FROM $sql_table";
