@@ -1,3 +1,36 @@
+<?php
+session_start();
+require_once('database.php');
+require_once('query_functions.php');
+$db = db_connect();
+
+if(!$db){
+  die("Connection failed: " . mysqli_connect_error());
+  echo "<p>Database connection failure</p>";
+}
+else{
+
+    if(isset($_POST["btnExport"])){
+        $sales_set = find_weekly_sales($db, $_SESSION['endDate'], $_SESSION['productName']);
+        header('Content-Type: text/csv');
+        header('Content-Disposition: attachment;filename=sales.csv');
+        header('Cache-Control: no-cache, no-store, must-revalidate');
+        header('Pragma: no-cache');
+        header('Expires: 0');
+        $csvoutput = fopen('php://output','w');
+
+        $row = get_row($sales_set);
+        $headers = array_keys($row);
+        fputcsv($csvoutput, $headers);
+        fputcsv($csvoutput, $row);
+        while($row = get_row($sales_set)){
+          fputcsv($csvoutput, $row);
+        }
+        fclose($csvoutput);
+        exit;
+      }
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -19,6 +52,10 @@
               <li><a href="weekly_report.php">Back</a></li>
           </ul>
         </div>
+		<form method="post" action="wrProcess.php">
+            <input type="submit" name="btnExport" value="CSV Export" class="btn btn-success" />
+        </form>
+        <br />
         <h3>Weekly Sales Report</h3>
         <table class="table table-bordered">
             <thead>
@@ -43,6 +80,10 @@
             else{
               $endDate = $_POST['endDate'];
               $productName = $_POST['select'];
+			  
+			  // save end date and product name in session variables
+              $_SESSION['endDate'] = $endDate;
+              $_SESSION['productName'] = $productName;
 
               $sales_set = find_weekly_sales($db, $endDate, $productName);
 
