@@ -1,3 +1,35 @@
+<?php
+require_once('database.php');
+require_once('query_functions.php');
+$db = db_connect();
+
+if(!$db){
+  die("Connection failed: " . mysqli_connect_error());
+  echo "<p>Database connection failure</p>";
+}
+else{
+
+    if(isset($_POST["btnExport"])){
+        $sales_set = find_sales_with_subtotals($db);
+        header('Content-Type: text/csv');
+        header('Content-Disposition: attachment;filename=sales.csv');
+        header('Cache-Control: no-cache, no-store, must-revalidate');
+        header('Pragma: no-cache');
+        header('Expires: 0');
+        $csvoutput = fopen('php://output','w');
+
+        $row = get_row($sales_set);
+        $headers = array_keys($row);
+        fputcsv($csvoutput, $headers);
+        fputcsv($csvoutput, $row);
+        while($row = get_row($sales_set)){
+          fputcsv($csvoutput, $row);
+        }
+        fclose($csvoutput);
+        exit;
+      }
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -31,8 +63,8 @@
                 <li><a href="index.html">Back</a></li>
             </ul>
 			<br />
-            <form method="post" action="export_sales.php">
-              <input type="submit" name="export_sales" value="CSV Export" class="btn btn-success"/>
+            <form method="post" action="display_sales_record.php">
+              <input type="submit" name="btnExport" value="CSV Export" class="btn btn-success"/>
             </form>
 			<br />
             <input id="userInput" type="text" placeholder="Filter by product name..." />
