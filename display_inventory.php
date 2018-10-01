@@ -19,6 +19,8 @@
             <ul class="nav nav-pills">
                 <li><a href="index.html">Back</a></li>
             </ul>
+			<div class="row">
+            <div class="col-md-8">
             <table class="table table-striped">
                 <thead>
                     <tr>
@@ -57,6 +59,8 @@ echo"<h1>Inventory Items</h1>";
 ?>
                 </tbody>
             </table>
+			</div>
+			</div>
         </div>
     </div>
 </body>

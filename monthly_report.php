@@ -28,7 +28,7 @@
             <li><a href="index.html">Back</a></li>
         </ul>
       </div>
-      <h3>Generate Weekly Sales Report</h3>
+      <h3>Generate Monthly Sales Report</h3>
       <div class="row">
           <div class="col-md-3">
             <form method="post" action="" onsubmit="return validate();">
