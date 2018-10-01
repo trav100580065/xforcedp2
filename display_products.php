@@ -1,3 +1,35 @@
+<?php
+require_once('database.php');
+require_once('query_functions.php');
+$db = db_connect();
+
+if(!$db){
+  die("Connection failed: " . mysqli_connect_error());
+  echo "<p>Database connection failure</p>";
+}
+else{
+
+    if(isset($_POST["btnExport"])){
+        $result = find_all_products($db);
+        header('Content-Type: text/csv');
+        header('Content-Disposition: attachment;filename=products.csv');
+        header('Cache-Control: no-cache, no-store, must-revalidate');
+        header('Pragma: no-cache');
+        header('Expires: 0');
+        $csvoutput = fopen('php://output','w');
+
+        $row = get_row($result);
+        $headers = array_keys($row);
+        fputcsv($csvoutput, $headers);
+        fputcsv($csvoutput, $row);
+        while($row = get_row($result)){
+          fputcsv($csvoutput, $row);
+        }
+        fclose($csvoutput);
+        exit;
+      }
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -11,17 +43,6 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <script>
-        $(document).ready(function() {
-            $("#userInput").on("keyup", function() {
-                var value = $(this).val().toLowerCase();
-                $("#productTable tr").filter(function() {
-                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-                });
-            });
-        });
-
-    </script>
 </head>
 
 <body>
@@ -31,12 +52,10 @@
                 <li><a href="index.html">Back</a></li>
             </ul>
             <br />
-            <form method="post" action="export_products.php">
-                <input type="submit" name="export_products" value="CSV Export" class="btn btn-success" />
+            <form method="post" action="display_products.php">
+                <input type="submit" name="btnExport" value="CSV Export" class="btn btn-success" />
             </form>
-            <br />
-            <input id="userInput" type="text" placeholder="Search by name.." />
-            <br />
+            
             <table class="table table-striped">
                 <thead>
                     <tr>
