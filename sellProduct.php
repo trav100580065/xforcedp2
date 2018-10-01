@@ -46,6 +46,6 @@ db_disconnect($db);
 		<meta name="author" content="Jackson O'Shea"/>
 	</head>
 	<body>
-		<a href="sellProduct.html">Go Back</a>
+		<a href="sellProductForm.php">Go Back</a>
 	</body>
 </html>
