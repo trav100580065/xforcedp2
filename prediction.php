@@ -2,6 +2,27 @@
 <html lang="en">
 
 <head>
+  <?php
+  require_once('database.php');
+  require_once('query_functions.php');
+
+  //connect to database
+  $db = db_connect();
+
+  if(!$db){
+    die("Connection failed: " . mysqli_connect_error());
+    echo "<p>Database connection failure</p>";
+  }
+  else{
+
+    $sql = "SELECT productID FROM php_database.inventory where totalQuantity < 5";
+
+    $result = $db->query($sql);
+
+    //db_disconnect($db);
+  }
+
+   ?>
     <meta charset="utf-8" />
     <meta name="description" content="People Health Pharmacy web app" />
     <meta name="keywords" content="Database" />
@@ -22,7 +43,16 @@
       <h3>Generate Prediction Report</h3>
       <div class="row">
           <div class="col-md-6">
-
+            <?php
+            while($row = mysqli_fetch_array($result)){
+              $num = $row['productID'];
+              $sql = "SELECT productName FROM php_database.product where productID = $num";
+              $prod = $db->query($sql);
+              while($row2 = mysqli_fetch_array($prod)){
+                echo "<p>Place orders for item: " .  $row2['productName']   . "</p>";
+              }
+            }
+            ?>
           </div>
       </div>
 
