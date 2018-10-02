@@ -8,29 +8,62 @@
   <title>People Health Pharmacy Records Management System</title>
   <!-- Reference to Bootstrap CDN -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/style.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
+
+<header>
+	<h2>Welcome to People Health Pharmacy</h2>
+
+</header>
+
+
 <body>
-  <div class="container">
-  <h2>Welcome to People Health Pharmacy</h2>
-  <div class="row">
-    <nav class="col-md-6">
-      <ul class="nav nav-pills nav-stacked">
-        <li><a href="sellProductForm.php">Add Sales Record</a></li>
-        <li><a href="addProduct.html">Add Product</a></li>
-		<li><a href="editsale.html">Edit Sales Record</a></li>
-        <li><a href="display_sales_record.php">Display All Sales Records</a></li>
-		<li><a href="weekly_report.php">Generate weekly sales report</a></li>
-		<li><a href="monthly_report.php">Generate monthly sales report</a></li>
-        <li><a href="prediction.php">Generate prediction report</a></li>
-        <li><a href="display_purchases.php">Display Purchases</a></li>
-        <li><a href="display_products.php">Display Products</a></li>
-        <li><a href="display_inventory.php">Display Inventory Items</a></li>
-        <li><a href="filterRecords.php">Search Table by ID / Name</a></li>
-      </ul>
-    </nav>
-  </div>
-</div>
+
+
+
+  	<div class="container">
+		<div class="row">
+
+		  	<div class="col-md-1"></div>
+
+			<div class="col-md-10">
+			  	<nav class="col-md-4" style="text-align: center;">
+			    	<ul class="nav nav-pills nav-stacked listGroup">
+						<li class="groupHeader">Add/Edit a Record</li>
+						<li><a href="sellProductForm.php">Add Sales Record</a></li>
+						<li><a href="addProduct.html">Add Product</a></li>
+						<li><a href="editsale.html">Edit Sales Record</a></li>
+			    	</ul>
+				</nav>
+
+
+			  	<nav class="col-md-4" style="text-align: center;">
+			    	<ul class="nav nav-pills nav-stacked listGroup">
+						<li class="groupHeader">Generate report</li>
+						<li><a href="weekly_report.php">Generate weekly sales report</a></li>
+						<li><a href="monthly_report.php">Generate monthly sales report</a></li>
+						<li><a href="prediction.php">Generate prediction report</a></li>
+			    	</ul>
+				</nav>
+
+
+			  	<nav class="col-md-4" style="text-align: center;">
+			    	<ul class="nav nav-pills nav-stacked listGroup">
+						<li class="groupHeader">Display Tables / Records</li>
+						<li><a href="display_sales_record.php">Display All Sales Records</a></li>
+						<li><a href="display_purchases.php">Display Purchases</a></li>
+						<li><a href="display_products.php">Display Products</a></li>
+						<li><a href="display_inventory.php">Display Inventory Items</a></li>
+						<li><a href="filterRecords.php">Search Table by ID / Name</a></li>
+			    	</ul>
+				</nav>
+			</div>
+
+		    <div class="col-md-1"></div>
+
+		</div>
+	</div>
 </body>
 </html>
