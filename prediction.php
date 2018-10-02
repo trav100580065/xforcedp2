@@ -19,7 +19,6 @@
 
     $result = $db->query($sql);
 
-    //db_disconnect($db);
   }
 
    ?>
@@ -52,6 +51,8 @@
                 echo "<p>Place orders for item: " .  $row2['productName']   . "</p>";
               }
             }
+
+            db_disconnect($db);
             ?>
           </div>
       </div>
