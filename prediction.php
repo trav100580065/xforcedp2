@@ -13,13 +13,6 @@
     die("Connection failed: " . mysqli_connect_error());
     echo "<p>Database connection failure</p>";
   }
-  else{
-
-    $sql = "SELECT productID FROM php_database.inventory where totalQuantity < 5";
-
-    $result = $db->query($sql);
-
-  }
 
    ?>
     <meta charset="utf-8" />
@@ -43,15 +36,8 @@
       <div class="row">
           <div class="col-md-6">
             <?php
-            while($row = mysqli_fetch_array($result)){
-              $num = $row['productID'];
-              $sql = "SELECT productName FROM php_database.product where productID = $num";
-              $prod = $db->query($sql);
-              while($row2 = mysqli_fetch_array($prod)){
-                echo "<p>Place orders for item: " .  $row2['productName']   . "</p>";
-              }
-            }
 
+            find_prediction_results($db);
             db_disconnect($db);
             ?>
           </div>

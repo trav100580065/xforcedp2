@@ -5,6 +5,19 @@ function get_row($result) {
 	return $result->fetch_assoc();
 }
 
+function find_prediction_results($db){
+		$sql = "SELECT productID FROM php_database.inventory where totalQuantity < 5";
+		$result = $db->query($sql);
+		while($row = mysqli_fetch_array($result)){
+			$num = $row['productID'];
+			$sql = "SELECT productName FROM php_database.product where productID = $num";
+			$prod = $db->query($sql);
+			while($row2 = mysqli_fetch_array($prod)){
+				echo "<p>Place orders for item: " .  $row2['productName']   . " due to low quantity</p>";
+			}
+		}
+}
+
 function find_all_sales($db){
   $sql_table = "sales";
   $sql = "SELECT * FROM $sql_table";
@@ -151,7 +164,7 @@ function get_Inventory_ID($db, $productID)
 //Function that uses the product ID to search the quantity of that product
 function get_Inventory_Quantity($db, $productID)
 {
-  //Saves $sql as a select statment which will 
+  //Saves $sql as a select statment which will
   $sql = "SELECT totalQuantity FROM inventory
   WHERE productID = '$productID' limit 1";
 
@@ -178,7 +191,7 @@ function add_New_Item_To_Inventory($db, $productName, $quantity)
   if ($inventoryID == "")
   {
     $sql = "INSERT INTO `inventory`(`productID`, `totalQuantity`) VALUES ('$productID', '$quantity')";
-  
+
     $result = @mysqli_query($db, $sql);
 
     return $result;
@@ -240,7 +253,7 @@ function sell_Product($db, $productName, $quantity, $sellDate)
       //If there's enough quantiy left to be removed
       if ($inventoryAmount >= $quantity)
       {
-        
+
         //Sets Quantity Remaining as the total inventory amount
         $quantityStillToRemove = $quantity;
 
@@ -309,7 +322,7 @@ function sell_Product($db, $productName, $quantity, $sellDate)
 
 
             //Creates a new SQL query to add the sale to the sales table
-            $sql = "INSERT INTO `sales`(`productID`, `recordDate`, `quantity`) 
+            $sql = "INSERT INTO `sales`(`productID`, `recordDate`, `quantity`)
             VALUES ('$productID', '$sellDate', '$quantity')";
 
             //Runs the query
