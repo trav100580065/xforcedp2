@@ -6,6 +6,8 @@ function get_row($result) {
 }
 
 function find_prediction_results($db){
+
+		//list items low on quantity
 		$sql = "SELECT productID FROM php_database.inventory where totalQuantity < 5";
 		$result = $db->query($sql);
 		while($row = mysqli_fetch_array($result)){
@@ -16,6 +18,10 @@ function find_prediction_results($db){
 				echo "<p>Place orders for item: " .  $row2['productName']   . " due to low quantity</p>";
 			}
 		}
+
+		//list items based on high number of sales between dates
+
+		//list top 5 selling items 
 }
 
 function find_all_sales($db){
