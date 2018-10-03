@@ -33,7 +33,7 @@ function filter_date($db, $table, $date) {
 
     else {
         if ($table == 'purchases') {
-            $sql = "SELECT * FROM $table WHERE purchase_date = '$date'";
+            $sql = "SELECT * FROM $table WHERE purchaseDate = '$date'";
         } else {
             $sql = "SELECT * FROM $table WHERE recordDate = '$date'";
         }
@@ -53,9 +53,9 @@ function order_quantity($db, $table) {
 
     else {
         if ($table == 'inventory') {
-            $sql = "SELECT * FROM $table ORDER BY total_quantity";
+            $sql = "SELECT * FROM $table ORDER BY totalQuantity";
         } else if ($table == 'purchases') {
-            $sql = "SELECT * FROM $table ORDER BY quantity_remaining";
+            $sql = "SELECT * FROM $table ORDER BY quantityRemaining";
         } else {
             $sql = "SELECT * FROM $table ORDER BY quantity";
         }
@@ -73,7 +73,7 @@ function order_expiration_date($db, $table) {
     if($table != 'purchases') echo "Invalid table selection";
 
     else {
-        $sql = "SELECT * FROM $table ORDER BY expiry_date";
+        $sql = "SELECT * FROM $table ORDER BY expiryDate";
         $result = mysqli_query($db, $sql);
     }
     return $result;
