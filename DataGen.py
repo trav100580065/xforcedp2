@@ -47,7 +47,7 @@ batchesPerProductVariance = 2
 
 # date range (year, month, day)
 startDate = (2018, 1, 1)
-endDate = (2019, 12, 31)
+endDate = (2019, 12, 28)
 
 # expiry date range (year, month, day)
 exStartDate = (2020, 1, 1)
