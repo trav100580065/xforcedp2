@@ -7,36 +7,51 @@
     <title>People Health Pharmacy Records Management System</title>
     <!-- Reference to Bootstrap CDN -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/style.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 
+<header>
+    <h2>Welcome to People Health Pharmacy</h2>
+</header>
+
 <body>
     <div class="container">
         <div class="panel-body">
-            <ul class="nav nav-pills">
-                <li><a href="index.html">Back</a></li>
-            </ul>
+
             <div class="row">
-                <div class="col-md-4">
-                    <h2>Edit a Sales Record</h2>
-                    <p>Enter Sale id and Product id for sales record to edit. Enter new Quantity number.</p>
+                <h2 class="centered">Edit a Sales Record</h2>
+                <p class="centered">Enter Sale id and Product id for sales record to edit. Enter new Quantity number.</p>
+            </div>
+
+            <div class="row">
+                <div class="col-md-8 col-md-offset-2">
                     <form action="editSale.php" method="post">
+
                         <div class="form-group">
-                            <label for="saleID">Sale id</label>
+                            <label for="saleID">Sale id:</label>
                             <input type="text" name="saleID" class="form-control" />
                         </div>
+
                         <div class="form-group">
-                            <label for="productID">Product id</label>
+                            <label for="productID">Product id:</label>
                             <input type="text" name="productID" class="form-control" />
                         </div>
+
                         <div class="form-group">
-                            <label for="quantity">Quantity</label>
+                            <label for="quantity">Quantity:</label>
                             <input type="text" name="quantity" class="form-control" />
                         </div>
-                        <div class="form-group">
-                            <input type="submit" class="btn btn-default" />
+
+                        <div class="col-xs-6">
+                            <a class="btn btn-default col-sm-6 col-xs-12 col-sm-offset-6 col-sm-offset-6" href="index.html">Back</a>
                         </div>
+
+                        <div class="col-xs-6">
+                            <input type="submit" class="btn btn-default col-sm-6 col-xs-12"/>
+                        </div>
+
                     </form>
                 </div>
             </div>
