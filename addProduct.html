@@ -13,7 +13,7 @@
 </head>
 
 <header>
-  <h2>Welcome to People Health Pharmacy</h2>
+    <h1>Welcome to People Health Pharmacy</h1>
 </header>
 
 <body>
