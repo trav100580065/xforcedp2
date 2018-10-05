@@ -58,8 +58,10 @@
                             }
                             else{
                               $product_names = find_product_names($db);
+							  define("ALL_PRODUCTS", "All");
 
                               $select = '<select name="select">';
+							  $select.='<option value="'.ALL_PRODUCTS.'">'.ALL_PRODUCTS.'</option>';
                               while($row = mysqli_fetch_assoc($product_names)){
                                 $select.='<option value="'.$row['productName'].'">'.$row['productName'].'</option>';
                               }

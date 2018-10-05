@@ -40,15 +40,25 @@ function find_sales_with_subtotals($db){
 }
 
 function find_weekly_sales($db, $endDate, $productName){
-  $sql = "SELECT productID, productName, recordDate, ROUND(quantity*price, 2) AS subtotal
-  FROM sales NATURAL INNER JOIN product
-  WHERE datediff('$endDate', recordDate) <= 6 AND
-  datediff('$endDate', recordDate) >= 0 AND
-  productName = '$productName'
-  ORDER BY recordDate DESC";
-  $result = mysqli_query($db, $sql);
-  return $result;
-
+	define("ALL_PRODUCTS", "All");
+	
+	if($productName == ALL_PRODUCTS){
+		$sql = "SELECT productID, productName, recordDate, ROUND(quantity*price, 2) AS subtotal
+		FROM sales NATURAL INNER JOIN product
+		WHERE datediff('$endDate', recordDate) <= 6 AND
+		datediff('$endDate', recordDate) >= 0
+		ORDER BY recordDate DESC";
+	}
+	else{
+		$sql = "SELECT productID, productName, recordDate, ROUND(quantity*price, 2) AS subtotal
+		FROM sales NATURAL INNER JOIN product
+		WHERE datediff('$endDate', recordDate) <= 6 AND
+		datediff('$endDate', recordDate) >= 0 AND
+		productName = '$productName'
+		ORDER BY recordDate DESC";
+	}
+	$result = mysqli_query($db, $sql);
+	return $result;
 }
 
 function add_sales_record($db, $saleID, $productID, $quantity){
