@@ -30,13 +30,34 @@
                     <form action="editSale.php" method="post">
 
                         <div class="form-group">
-                            <label for="saleID">Sale id:</label>
-                            <input type="text" name="saleID" class="form-control" />
+                            <label for="saleDate">Sale Date:</label>
+                            <input type="date" name="saleDate" class="form-control" />
                         </div>
 
                         <div class="form-group">
-                            <label for="productID">Product id:</label>
-                            <input type="text" name="productID" class="form-control" />
+                            <label for="productNameInput">Product Name:</label>
+                            <?php
+                                require_once('database.php');
+                                require_once('query_functions.php');
+
+                                $db = db_connect();
+
+                                if(!$db){
+                                  die("Connection failed: " . mysqli_connect_error());
+                                  echo "<p>Database connection failure</p>";
+                                }
+                                else{
+                                  $product_names = find_product_names($db);
+
+                                  $select = '<select name="productNameInput" class="form-control">';
+                                  while($row = mysqli_fetch_assoc($product_names)){
+                                    $select.='<option value="'.$row['productName'].'">'.$row['productName'].'</option>';
+                                  }
+
+                                  $select.='</select>';
+                                  echo $select;
+                                }
+                            ?>
                         </div>
 
                         <div class="form-group">
@@ -60,4 +81,3 @@
 </body>
 
 </html>
-
