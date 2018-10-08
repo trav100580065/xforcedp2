@@ -22,7 +22,7 @@
 
             <div class="row">
                 <h2 class="centered">Edit a Sales Record</h2>
-                <p class="centered">Enter Sale id and Product id for sales record to edit. Enter new Quantity number.</p>
+                <p class="centered">Enter Sale date and Product name for sales record to edit. Enter new Quantity number.</p>
             </div>
 
             <div class="row">
