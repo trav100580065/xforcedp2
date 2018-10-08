@@ -69,9 +69,11 @@ function add_sales_record($db, $saleID, $productID, $quantity){
   return $result;
 }
 
-function update_sales_record($db, $saleID, $productID, $quantity){
+//updates sales table, changes quantity of a product sold based on sale date and product name
+function update_sales_record($db, $saleDate, $productName, $quantity){
   $sql_table = "sales";
-  $sql = "UPDATE $sql_table SET  quantity = $quantity WHERE productID == $productID && orderID = $saleID";
+  $sql = "UPDATE $sql_table NATURAL INNER JOIN product
+	SET  quantity = $quantity WHERE productName = '$productName' AND recordDate = '$saleDate'";
   $result = @mysqli_query($db, $sql);
   return $result;
 }
