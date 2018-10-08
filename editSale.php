@@ -11,21 +11,17 @@ if(!$db){
 }
 else{
 
-    $saleID = $_POST['saleID'];
-    $productID = $_POST['productID'];
+    $saleDate = $_POST['saleDate'];
+    $productName = $_POST['productNameInput'];
     $quantity = $_POST['quantity'];
 
 	//validate user input
-    if(!is_numeric($saleID)){
-      echo "Sale ID must be a number";
-    } else if(!is_numeric($productID)){
-      echo "Product ID must be a number";
-    } else if(!is_numeric($quantity)){
+    if(!is_numeric($quantity)){
       echo "Quantity must be a number";
     }
     else {
 	//add a sales record to sales table
-      $result = update_sales_record($db, $saleID, $productID, $quantity);
+      $result = update_sales_record($db, $saleDate, $productName, $quantity);
 
       if(!$result){
         echo "<p> Something is wrong with your query</p>";
@@ -43,6 +39,6 @@ else{
     <meta name="author" content="JJ"/>
   </head>
   <body>
-    <a href="addsale.html">Go Back</a>
+    <a href="index.html">Back to Main Menu</a>
   </body>
 </html>
