@@ -16,15 +16,24 @@
 <body>
     <div class="container">
         <div class="filterSpace">
-            <form action="display_purchases.php" method="post">
-                <label for="date">Date filter</label>
-                <input type="text" id="date" name="date">
-                <input type="submit" name="filter_date">
-            </form>
-            <form action="display_purchases.php" method="post">
-                <label for="quantity">Quantity filter</label>
-                <input type="submit" name="filter_quantity">
-            </form>
+           <div class="row">
+				<div class="col-md-4">
+				<form action="display_purchases.php" method="post">
+					<div class="form-group">
+					<label for="date">Date filter</label>
+					<input type="text" id="date" name="date" class="form-control">
+					<br />
+					<input type="submit" name="filter_date" class="btn btn-default" >
+					</div>
+				</form>
+				<form action="display_purchases.php" method="post">
+					<div class="form-group">
+					<label for="quantity">Quantity filter</label>
+					<input type="submit" name="filter_quantity" class="btn btn-default">
+					</div>
+				</form>
+			</div>
+          </div>
         </div>
         <div class="panel-body">
             <ul class="nav nav-pills">
