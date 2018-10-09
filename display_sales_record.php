@@ -41,9 +41,10 @@ else{
     <title>People Health Pharmacy Records Management System</title>
     <!-- Reference to Bootstrap CDN -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/style.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-	<script>
+    <script>
         $(document).ready(function() {
             $("#userInput").on("keyup", function() {
                 var value = $(this).val().toLowerCase();
@@ -56,64 +57,89 @@ else{
     </script>
 </head>
 
+<header>
+    <h1>Welcome to People Health Pharmacy</h1>
+</header>
+
 <body>
     <div class="container">
         <div class="panel-body">
-            <ul class="nav nav-pills">
-                <li><a href="index.html">Back</a></li>
-            </ul>
-			<br />
-            <form method="post" action="display_sales_record.php">
-              <input type="submit" name="btnExport" value="CSV Export" class="btn btn-success"/>
-            </form>
-			<br />
-            <input id="userInput" type="text" placeholder="Filter by product name..." />
-            <br />
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th>Product ID</th>
-                        <th>Product Name</th>
-                        <th>Sale Date</th>
-                        <th>Subtotal</th>
-                    </tr>
-                </thead>
-                <tbody id="salesTable">
-                    <?php
 
-require_once('database.php');
-require_once('query_functions.php');
+            <div class="row">
+                <h2 class="centered">Generate Prediction Report</h2>
+            </div>
 
-$db = db_connect();
+            <div class="row">
+                <div class="col-md-8 col-md-offset-2">
 
-if(!$db){
-  die("Connection failed: " . mysqli_connect_error());
-  echo "<p>Database connection failure</p>";
-}
-else{
-  echo"<h1>Sales Records</h1>";
+                    <div class="col-md-4 col-md-offset-4">
+                        <form method="post" action="display_sales_record.php">
 
-  //retrieve sales records from sales table
-  $sales_set = find_sales_with_subtotals($db);
+                            <input id="userInput" type="text" placeholder="Filter by product name..." class="col-xs-12"/>
 
-  //display the retrieved records
-            while($row = mysqli_fetch_assoc($sales_set)){
-                echo "<tr>\n";
-                echo "<td>", $row["productID"], "</td>\n";
-                echo "<td>", $row["productName"], "</td>\n";
-                echo "<td>", $row["recordDate"], "</td>\n";
-				echo "<td>", $row["subtotal"], "</td>\n";
-                echo "</tr>\n";
-            }
-            echo "</table>\n";
+                            <br/><br/>
 
-  mysqli_free_result($sales_set);
-}
+                            <input type="submit" name="btnExport" value="CSV Export" class="btn btn-success col-md-8 col-md-offset-2"/>
 
-db_disconnect($db);
-?>
-                </tbody>
-            </table>
+                        </form>
+                    </div>
+
+
+                    <div class="col-xs-12">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Product ID</th>
+                                    <th>Product Name</th>
+                                    <th>Sale Date</th>
+                                    <th>Subtotal</th>
+                                </tr>
+                            </thead>
+
+                            <tbody id="salesTable">
+                                <?php
+
+                                    require_once('database.php');
+                                    require_once('query_functions.php');
+
+                                    $db = db_connect();
+
+                                    if(!$db){
+                                      die("Connection failed: " . mysqli_connect_error());
+                                      echo "<p>Database connection failure</p>";
+                                    }
+                                    else{
+                                      echo"<h1>Sales Records</h1>";
+
+                                      //retrieve sales records from sales table
+                                      $sales_set = find_sales_with_subtotals($db);
+
+                                      //display the retrieved records
+                                                while($row = mysqli_fetch_assoc($sales_set)){
+                                                    echo "<tr>\n";
+                                                    echo "<td>", $row["productID"], "</td>\n";
+                                                    echo "<td>", $row["productName"], "</td>\n";
+                                                    echo "<td>", $row["recordDate"], "</td>\n";
+                                                    echo "<td>", $row["subtotal"], "</td>\n";
+                                                    echo "</tr>\n";
+                                                }
+                                                echo "</table>\n";
+
+                                      mysqli_free_result($sales_set);
+                                    }
+
+                                    db_disconnect($db);
+                                ?>
+                            </tbody>
+                        </table>
+
+                        <div class="col-xs-6 col-xs-offset-3">
+                            <a class="btn btn-default col-sm-6 col-xs-12 col-sm-offset-3" href="index.html">Back</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
 </body>

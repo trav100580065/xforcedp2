@@ -9,58 +9,79 @@
     <title>People Health Pharmacy Records Management System</title>
     <!-- Reference to Bootstrap CDN -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/style.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 
+<header>
+    <h1>Welcome to People Health Pharmacy</h1>
+</header>
+
 <body>
     <div class="container">
         <div class="panel-body">
-            <ul class="nav nav-pills">
-                <li><a href="index.html">Back</a></li>
-            </ul>
-			<div class="row">
-            <div class="col-md-8">
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th>Product ID</th>
-                        <th>Total Quantity</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php
-require_once('database.php');
-require_once('query_functions.php');
+            <div class="row">
+                <h2 class="centered">Inventory Items Table</h2>
+            </div>
 
-$db = db_connect();
+            <div class="col-md-8 col-md-offset-2">
+                <div class="col-md-5 col-md-offset-1">
+                    <form method="post" action="display_products.php">
+                        <input type="submit" name="btnExport" value="CSV Export" class="btn btn-success col-xs-12" />
+                    </form>
+                </div>
 
-if(!$db){
-  die("Connection failed: " . mysqli_connect_error());
-  echo "<p>Database connection failure</p>";
-}
-else{
-echo"<h1>Inventory Items</h1>";
-//retrieve records from inventory table
-  $inventory_set = find_all_inventory($db);
+                <div class="col-md-5">
+                    <a class="btn btn-default col-xs-12" href="index.html">Back</a>
+                </div>
+            </div>
 
-  //display the retrieved records
-            while($row = mysqli_fetch_assoc($inventory_set)){
-                echo "<tr>\n";
-                echo "<td>", $row["productID"], "</td>\n";
-				echo "<td>", $row["totalQuantity"], "</td>\n";
-                echo "</tr>\n";
-            }
-            echo "</table>\n";
+            <br/><br/><br/>
 
-  mysqli_free_result($inventory_set);
-}
+            <div class="col-xs-12">
+    			<div class="row">
+                    <div class="col-md-8 col-md-offset-2">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Product ID</th>
+                                    <th>Total Quantity</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php
+                                    require_once('database.php');
+                                    require_once('query_functions.php');
 
-?>
-                </tbody>
-            </table>
-			</div>
-			</div>
+                                    $db = db_connect();
+
+                                    if(!$db){
+                                      die("Connection failed: " . mysqli_connect_error());
+                                      echo "<p>Database connection failure</p>";
+                                    }
+                                    else{
+                                    //retrieve records from inventory table
+                                      $inventory_set = find_all_inventory($db);
+
+                                      //display the retrieved records
+                                                while($row = mysqli_fetch_assoc($inventory_set)){
+                                                    echo "<tr>\n";
+                                                    echo "<td>", $row["productID"], "</td>\n";
+                                    				echo "<td>", $row["totalQuantity"], "</td>\n";
+                                                    echo "</tr>\n";
+                                                }
+                                                echo "</table>\n";
+
+                                      mysqli_free_result($inventory_set);
+                                    }
+
+                                ?>
+                            </tbody>
+                        </table>
+        			</div>
+    			</div>
+            </div>
         </div>
     </div>
 </body>
