@@ -8,20 +8,27 @@ function get_row($result) {
 function find_prediction_results($db){
 
 		//list items low on quantity
-		$sql = "SELECT productID FROM php_database.inventory where totalQuantity < 5";
+		$sql = "SELECT productID,totalQuantity FROM php_database.inventory where totalQuantity < 5";
 		$result = $db->query($sql);
+		$alldata = array();
 		while($row = mysqli_fetch_array($result)){
 			$num = $row['productID'];
 			$sql = "SELECT productName FROM php_database.product where productID = $num";
 			$prod = $db->query($sql);
 			while($row2 = mysqli_fetch_array($prod)){
+                $data = array();
+                $data[] = $row2["productName"];
+                $data[] = (int)$row["totalQuantity"];
+                $alldata[] = $data;
 				echo "<p>Place orders for item: " .  $row2['productName']   . " due to low quantity</p>";
 			}
 		}
 
 		//list items based on high number of sales between dates
 
-		//list top 5 selling items 
+		//list top 5 selling items
+
+    return $alldata;
 }
 
 function find_all_sales($db){
