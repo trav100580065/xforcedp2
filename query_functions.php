@@ -8,7 +8,6 @@ function get_row($result) {
 function find_prediction_results($db){
 
 		//list items low on quantity
-		echo "<h3>Low Stock Items</h3>";
 		$sql = "SELECT productID,totalQuantity FROM php_database.inventory where totalQuantity < 5";
 		$result = $db->query($sql);
 		$alldata = array();
@@ -64,7 +63,6 @@ function find_sales_with_subtotals($db){
 
 function find_weekly_sales($db, $endDate, $productName){
 	define("ALL_PRODUCTS", "All");
-
 	if($productName == ALL_PRODUCTS){
 		$sql = "SELECT productID, productName, recordDate, ROUND(quantity*price, 2) AS subtotal
 		FROM sales NATURAL INNER JOIN product
@@ -82,6 +80,25 @@ function find_weekly_sales($db, $endDate, $productName){
 	}
 	$result = mysqli_query($db, $sql);
 	return $result;
+}
+
+function find_monthly_sales($db, $endDate, $productName){
+    define("ALL_PRODUCTS", "All");
+    if($productName == ALL_PRODUCTS){
+        $sql = "SELECT productID, productName, recordDate, ROUND(quantity*price, 2) AS subtotal
+		FROM sales NATURAL INNER JOIN product
+		WHERE DATE_FORMAT(recordDate, '%Y-%m') = '$endDate'
+		ORDER BY recordDate DESC";
+    }
+    else{
+        $sql = "SELECT productID, productName, recordDate, ROUND(quantity*price, 2) AS subtotal
+		FROM sales NATURAL INNER JOIN product
+		WHERE DATE_FORMAT(recordDate, '%Y-%m') = '$endDate' AND
+		productName = '$productName'
+		ORDER BY recordDate DESC";
+    }
+    $result = mysqli_query($db, $sql);
+    return $result;
 }
 
 function add_sales_record($db, $saleID, $productID, $quantity){

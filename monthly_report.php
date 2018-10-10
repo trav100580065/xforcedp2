@@ -36,7 +36,7 @@
 
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
-                <form method="post" action="" onsubmit="return validate();">
+                <form method="post" action="mthProcess.php" onsubmit="return validate();">
                     <div class="form-group">
                         <label for="endDate">Select Month: </label>
                         <input type="month" name="endDate" class="form-control" />
@@ -56,8 +56,10 @@
                         }
                         else{
                           $product_names = find_product_names($db);
+                          define("ALL_PRODUCTS", "All");
 
                           $select = '<select name="select">';
+                          $select.='<option value="'.ALL_PRODUCTS.'">'.ALL_PRODUCTS.'</option>';
                           while($row = mysqli_fetch_assoc($product_names)){
                             $select.='<option value="'.$row['productName'].'">'.$row['productName'].'</option>';
                           }
