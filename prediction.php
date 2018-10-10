@@ -54,9 +54,7 @@
           <div class="col-md-8 col-md-offset-2">
             <div class="col-md-6">
               <?php
-
               $alldata = find_prediction_results($db);
-              db_disconnect($db);
               ?>
             </div>
 
@@ -103,6 +101,10 @@
                     });
 
                 </script>
+                <?php
+                $alldataSales = prediction_sales($db);
+                db_disconnect($db);
+                ?>
 
             </div>
           </div>

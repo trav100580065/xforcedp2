@@ -24,21 +24,27 @@ function find_prediction_results($db){
 				echo "<p>Place orders for item: " .  $row2['productName']   . " due to low quantity</p>";
 			}
 		}
-
-		//list top 5 selling items
-		echo "<h3>High Demand Items (top 5 highest selling)</h3>";
-		$sql = "SELECT productID, COUNT(productID) as value_occurance FROM php_database.sales GROUP BY productID ORDER BY value_occurance DESC Limit 5";
-		$result = $db->query($sql);
-			while($row = mysqli_fetch_array($result)){
-			$num = $row['productID'];
-			$sql = "SELECT productName FROM php_database.product where productID = $num";
-			$prod = $db->query($sql);
-			while($row2 = mysqli_fetch_array($prod)){
-				echo "<p>Place orders for item: " .  $row2['productName']   . " due to high demand</p>";
-			}
-	}
-
     return $alldata;
+}
+
+function prediction_sales($db){
+	//list top 5 selling items
+	echo "<h3>High Demand Items (top 5 highest selling)</h3>";
+	$sql = "SELECT productID, COUNT(productID) as value_occurance FROM php_database.sales GROUP BY productID ORDER BY value_occurance DESC Limit 5";
+	$result = $db->query($sql);
+		while($row = mysqli_fetch_array($result)){
+		$num = $row['productID'];
+		$sql = "SELECT productName FROM php_database.product where productID = $num";
+		$prod = $db->query($sql);
+		while($row2 = mysqli_fetch_array($prod)){
+			echo "<p>Place orders for item: " .  $row2['productName']   . " due to high demand</p>";
+			$data = array();
+			$data[] = $row2["productName"];
+			$data[] = (int)$row["value_occurance"];
+			$alldataSales = $data;
+		}
+	}
+	return $alldataSales;
 }
 
 function find_all_sales($db){
