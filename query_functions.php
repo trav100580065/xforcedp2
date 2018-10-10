@@ -8,7 +8,6 @@ function get_row($result) {
 function find_prediction_results($db){
 
 		//list items low on quantity
-		echo "<h3>Low Stock Items</h3>";
 		$sql = "SELECT productID,totalQuantity FROM php_database.inventory where totalQuantity < 5";
 		$result = $db->query($sql);
 		$alldata = array();
@@ -25,18 +24,9 @@ function find_prediction_results($db){
 			}
 		}
 
+		//list items based on high number of sales between dates
+
 		//list top 5 selling items
-		echo "<h3>High Demand Items (top 5 highest selling)</h3>";
-		$sql = "SELECT productID, COUNT(productID) as value_occurance FROM php_database.sales GROUP BY productID ORDER BY value_occurance DESC Limit 5";
-		$result = $db->query($sql);
-			while($row = mysqli_fetch_array($result)){
-			$num = $row['productID'];
-			$sql = "SELECT productName FROM php_database.product where productID = $num";
-			$prod = $db->query($sql);
-			while($row2 = mysqli_fetch_array($prod)){
-				echo "<p>Place orders for item: " .  $row2['productName']   . " due to high demand</p>";
-			}
-	}
 
     return $alldata;
 }
@@ -58,7 +48,6 @@ function find_sales_with_subtotals($db){
 
 function find_weekly_sales($db, $endDate, $productName){
 	define("ALL_PRODUCTS", "All");
-
 	if($productName == ALL_PRODUCTS){
 		$sql = "SELECT productID, productName, recordDate, ROUND(quantity*price, 2) AS subtotal
 		FROM sales NATURAL INNER JOIN product
@@ -76,6 +65,25 @@ function find_weekly_sales($db, $endDate, $productName){
 	}
 	$result = mysqli_query($db, $sql);
 	return $result;
+}
+
+function find_monthly_sales($db, $endDate, $productName){
+    define("ALL_PRODUCTS", "All");
+    if($productName == ALL_PRODUCTS){
+        $sql = "SELECT productID, productName, recordDate, ROUND(quantity*price, 2) AS subtotal
+		FROM sales NATURAL INNER JOIN product
+		WHERE DATE_FORMAT(recordDate, '%Y-%m') = '$endDate'
+		ORDER BY recordDate DESC";
+    }
+    else{
+        $sql = "SELECT productID, productName, recordDate, ROUND(quantity*price, 2) AS subtotal
+		FROM sales NATURAL INNER JOIN product
+		WHERE DATE_FORMAT(recordDate, '%Y-%m') = '$endDate' AND
+		productName = '$productName'
+		ORDER BY recordDate DESC";
+    }
+    $result = mysqli_query($db, $sql);
+    return $result;
 }
 
 function add_sales_record($db, $saleID, $productID, $quantity){
