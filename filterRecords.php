@@ -42,7 +42,7 @@
                             </div>
 
                             <div class="form-group">
-                                <label for="name">name</label>
+                                <label for="name">Name</label>
                                 <input type="text" name="name" id="name"  maxlength="30"/>
                             </div>
 

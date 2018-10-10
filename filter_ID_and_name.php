@@ -6,7 +6,7 @@
  * Time: 2:01 PM
  */
 
-function filter_ID($db, $table, $ID) {
+function filter_by_ID($db, $table, $ID) {
     //Returns a selection based on the ID given.
 
     $result = NULL;
