@@ -50,20 +50,34 @@
           <a class="btn btn-default col-sm-6 col-xs-12 col-sm-offset-3" href="index.html">Back</a>
         </div>
 
-        <div class="row">
+          <div ng-controller="MainCtrl">
+
+          <div class="row">
           <div class="col-md-8 col-md-offset-2">
             <div class="col-md-6">
               <?php
-              $alldata = find_prediction_results($db);
+              $allDataLowQuantity = find_prediction_results($db);
               ?>
+                <nvd3 options="options" data="lowQuantity"></nvd3>
+            </div>
+            <div class="col-md-6">
+                <?php
+                $allDataHighDemand = prediction_sales($db);
+                db_disconnect($db);
+                ?>
+                <nvd3 options="options" data="highDemand"></nvd3>
+
             </div>
 
-            <!--VISUALIZATION OF REPORT-->
-
-            <div ng-controller="MainCtrl">
-                <nvd3 options="options" data="data"></nvd3>
 
 
+              <!--VISUALIZATION OF REPORT-->
+
+              <h2>Products having Low Quantity</h2>
+                <nvd3 options="options" data="lowQuantity"></nvd3>
+              <h2>Products in High Demand</h2>
+
+              <nvd3 options="options" data="highDemand"></nvd3>
                 <script>
                     var app = angular.module('plunker', ['nvd3']);
 
@@ -75,7 +89,7 @@
                                 margin : {
                                     top: 50,
                                     right: 50,
-                                    bottom: 150,
+                                    bottom: 200,
                                     left: 55
                                 },
                                 x: function(d){return d[0];},
@@ -85,6 +99,7 @@
                                 xAxis: {
                                     axisLabel: 'Product Name',
                                     rotateLabels: 45
+
                                 },
                                 yAxis: {
                                     axisLabel: 'Total Quantity',
@@ -92,21 +107,25 @@
                                 }
                             }
                         };
-                        $scope.data = [
+                        $scope.lowQuantity = [
                             {
                                 "key" : "Quantity" ,
                                 // "bar": true,
-                                "values" : <?php echo json_encode($alldata);?>
+                                "values" : <?php echo json_encode($allDataLowQuantity);?>
+                            }];
+                        $scope.highDemand = [
+                            {
+                                "key" : "Quantity" ,
+                                // "bar": true,
+                                "values" : <?php echo json_encode($allDataHighDemand);?>
                             }];
                     });
-
                 </script>
-                <?php
-                $alldataSales = prediction_sales($db);
-                db_disconnect($db);
-                ?>
 
             </div>
+
+
+
           </div>
         </div>
       </div>

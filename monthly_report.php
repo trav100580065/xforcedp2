@@ -39,7 +39,7 @@
                 <form method="post" action="mthProcess.php" onsubmit="return validate();">
                     <div class="form-group">
                         <label for="endDate">Select Month: </label>
-                        <input type="month" name="endDate" class="form-control" />
+                        <input type="month" name="endDate" class="form-control" placeholder="yyyy-mm"/>
                     </div>
 
                     <div class="form-group">
