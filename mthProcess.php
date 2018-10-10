@@ -69,7 +69,6 @@ else{
         <tr>
             <th>Product ID</th>
             <th>Product Name</th>
-            <th>Sale Date</th>
             <th>Subtotal</th>
         </tr>
         </thead>
@@ -103,7 +102,6 @@ else{
                 echo "<tr>\n";
                 echo "<td>", $row["productID"], "</td>\n";
                 echo "<td>", $row["productName"], "</td>\n";
-                echo "<td>", $row["recordDate"], "</td>\n";
                 echo "<td>", $row["subtotal"], "</td>\n";
                 echo "</tr>\n";
             }
