@@ -8,6 +8,7 @@ function get_row($result) {
 function find_prediction_results($db){
 
 		//list items low on quantity
+		echo "<h3>Low Quantity</h3>";
 		$sql = "SELECT productID,totalQuantity FROM php_database.inventory where totalQuantity < 5";
 		$result = $db->query($sql);
 		$alldata = array();
